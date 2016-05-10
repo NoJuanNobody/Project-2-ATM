@@ -43,17 +43,21 @@ public class ATM {
     }
 
     public String login(String userID, int pin){
+
+        String msg="nothing happened.";
         if(session){
-            return this.getLoggedIn()+" is already Logged into a session";
+            msg = this.getLoggedIn()+" is already Logged into a session";
+            return msg;
         }
-        String msg="";
+
         for(User user: users){
-            if(user.getUserID() == userID && pin == user.getPin() ){
+
+            if(user.getUserID().equalsIgnoreCase(userID) && pin == user.getPin() ){
                 this.setLoggedIn(user);
-                msg = user.getFirst()+" "+user.getLast()+" is not logged in in this current session";
+                msg = user.getFirst()+" "+user.getLast()+" is now logged in this current session";
             }
         }
-        if(getLoggedIn() == null) msg = "your user Identification number or pin is invalid";
+//        if(getLoggedIn() == null) msg = "your user Identification number or pin is invalid";
         return msg;
     }
 

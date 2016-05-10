@@ -56,15 +56,15 @@ public class UserSpec {
         assertEquals("should have returned the account id for checking", accountID, returnAccountID);
     }
 
-//    @Test
-//    public void AddInvestmentAcctTest(){
-//        String accountID = invAcct.getAccountId();
-//        newUser.addAccount((Account)invAcct);
-//        ArrayList<Account> accounts = newUser.getAccounts();
-//        String returnAccountID="";
-//        for(Account account: accounts){
-//            if(accountID == account.getAccountId()) returnAccountID = account.getAccountId();
-//        }
-//        assertEquals("should have returned the account id for checking", accountID, returnAccountID);
-//    }
+    @Test
+    public void AddInvestmentAcctTest(){
+        String accountID = invAcct.getAccountId();
+        newUser.addAccount((Account)invAcct);
+        ArrayList<Account> accounts = newUser.getAccounts();
+        String returnAccountID="";
+        for(Account account: accounts){
+            if(accountID == account.getAccountId()) returnAccountID = account.getAccountId();
+        }
+        assertEquals("should have returned the account id for checking", accountID, returnAccountID);
+    }
 }

@@ -29,4 +29,12 @@ public class SavingsSpec {
 
     }
 
+    @Test
+    public void ChangesavingStatusTest(){
+        savings.changeStatus("closed");
+        Status actualStatus = savings.getAccountStatus();
+        Status expectedStatus = Status.CLOSED;
+        assertEquals("the status should be: "+expectedStatus,expectedStatus,actualStatus);
+    }
+
 }

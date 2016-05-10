@@ -4,7 +4,7 @@ package io.alejandrolondono;
  * Created by alejandrolondono on 5/7/16.
  */
 public class Savings extends Account {
-    private double interest;
+    private double interest = 0.5;
 
     public double getInterest() {
         return interest;

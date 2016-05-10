@@ -12,18 +12,25 @@ public class User {
     private String first;
     private String last;
     private int pin;
-    private String userId = "U"+UUID.randomUUID().toString();
+    private String userHash = "U"+UUID.randomUUID().toString();
+    private String userID = userHash.substring(userHash.length()-7);
 
-
-    public User(String first, String last){
+    public User(String first, String last, int pin){
         this.first = first;
         this.last = last;
+        this.pin = pin;
+    }
 
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void addAccount(Account acct){
-        ArrayList<Account> accounts = this.getAccounts();
-        accounts.add(acct);
+        this.accounts.add(acct);
     }
 
     /*
@@ -63,12 +70,12 @@ public class User {
         this.pin = pin;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserHash() {
+        return userHash;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserHash(String userHash) {
+        this.userHash = userHash;
     }
 
 

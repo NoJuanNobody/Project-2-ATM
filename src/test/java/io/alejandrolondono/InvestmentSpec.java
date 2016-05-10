@@ -28,4 +28,12 @@ public class InvestmentSpec {
         assertFalse(cond);
     }
 
+    @Test
+    public void ChangeInvStatusTest(){
+        investment.changeStatus("closed");
+        Status actualStatus = investment.getAccountStatus();
+        Status expectedStatus = Status.CLOSED;
+        assertEquals("the status should be: "+expectedStatus,expectedStatus,actualStatus);
+    }
+
 }

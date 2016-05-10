@@ -40,4 +40,12 @@ public class CheckingSpec {
         assertEquals("the savings should be "+expectedSavings, expectedSavings, actualSavings, err);
 
     }
+
+    @Test
+    public void ChangeCheckingStatusTest(){
+        checking.changeStatus("closed");
+        Status actualStatus = checking.getAccountStatus();
+        Status expectedStatus = Status.CLOSED;
+        assertEquals("the status should be: "+expectedStatus,expectedStatus,actualStatus);
+    }
 }

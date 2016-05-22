@@ -5,6 +5,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by alejandrolondono on 5/9/16.
@@ -30,13 +32,13 @@ public class UserSpec {
 
     @Test
     public void AddSavingsAcctTest(){
-        String accountID = saveAcct.getAccountId();
-        newUser.addAccount((Account)saveAcct);
-        ArrayList<Account> accounts = newUser.getAccounts();
+        String accountID = saveAcct.getAccountID();
+        newUser.addAccount(saveAcct);
+        HashMap<String ,Account> accounts = newUser.getAccounts();
         String returnedAccountID="";
-        for(Account account : accounts){
-            if(accountID == account.getAccountId()){
-                returnedAccountID =  account.getAccountId();
+        for(Map.Entry accountEntry : accounts.entrySet()){
+            if(accountID == accounts.get(accountEntry.getKey()).getAccountID()){
+                returnedAccountID =  accounts.get(accountEntry.getKey()).getAccountID();
             }
         }
         assertEquals("should have returned the same ID", accountID, returnedAccountID);
@@ -45,25 +47,25 @@ public class UserSpec {
 
     @Test
     public void AddCheckingAcctTest(){
-        String accountID = checkAcct.getAccountId();
-        System.out.println(newUser.getUserID());
+        String accountID = checkAcct.getAccountID();
         newUser.addAccount((Account)checkAcct);
-        ArrayList<Account> accounts = newUser.getAccounts();
+        HashMap<String, Account> accounts = newUser.getAccounts();
         String returnAccountID="";
-        for(Account account: accounts){
-            if(accountID == account.getAccountId()) returnAccountID = account.getAccountId();
+        for(Map.Entry accountEntry : accounts.entrySet()){
+            if(accountID == accounts.get(accountEntry.getKey()).getAccountID()) returnAccountID = accounts.get(accountEntry.getKey()).getAccountID();
         }
         assertEquals("should have returned the account id for checking", accountID, returnAccountID);
     }
 
     @Test
     public void AddInvestmentAcctTest(){
-        String accountID = invAcct.getAccountId();
+        String accountID = invAcct.getAccountID();
+        System.out.println();
         newUser.addAccount((Account)invAcct);
-        ArrayList<Account> accounts = newUser.getAccounts();
+        HashMap<String, Account> accounts = newUser.getAccounts();
         String returnAccountID="";
-        for(Account account: accounts){
-            if(accountID == account.getAccountId()) returnAccountID = account.getAccountId();
+        for(Map.Entry accountEntry : accounts.entrySet()){
+            if(accountID == accounts.get(accountEntry.getKey()).getAccountID()) returnAccountID = accounts.get(accountEntry.getKey()).getAccountID();
         }
         assertEquals("should have returned the account id for checking", accountID, returnAccountID);
     }

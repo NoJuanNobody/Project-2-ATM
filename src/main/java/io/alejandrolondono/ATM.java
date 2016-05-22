@@ -42,37 +42,42 @@ public class ATM {
         this.users.add(user);
     }
 
-    public String login(String userID, int pin){
+    public boolean login(String userID, int pin){
 
-        String msg="nothing happened.";
+        String msg="your user Identification number or pin is invalid";
         if(session){
             msg = this.getLoggedIn()+" is already Logged into a session";
-            return msg;
+            System.out.println(msg);
+            return session;
         }
 
         for(User user: users){
 
-            if(user.getUserID().equalsIgnoreCase(userID) && pin == user.getPin() ){
-                this.setLoggedIn(user);
-                msg = user.getFirst()+" "+user.getLast()+" is now logged in this current session";
+            if(user.getUserID().equalsIgnoreCase(userID)){
+                if(pin == user.getPin()){
+                    this.setLoggedIn(user);
+                    msg = user.getFirst()+" "+user.getLast()+" is now logged in this current session";
+                    session = !session;
+                }else{
+                    msg = "your password seems to be invalid. try again.";
+                }
+            }else{
+                msg = "there does not seem to be a userID under that name";
+
             }
         }
-//        if(getLoggedIn() == null) msg = "your user Identification number or pin is invalid";
-        return msg;
+        System.out.println(msg);
+        return session;
     }
 
     public String logout(){
-
         if(!session){
             return "already Logged out";
         }
         session = !session;
-        //still does not reset variable,
-        // need to rely on session bool above
-        this.setLoggedIn(null);
         return "exited session, user is now logged out.";
     }
-//    CLI
+
 
 
 }

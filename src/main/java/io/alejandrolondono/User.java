@@ -1,14 +1,13 @@
 package io.alejandrolondono;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by alejandrolondono on 5/7/16.
  */
 public class User {
 
-    private ArrayList<Account> accounts = new ArrayList<Account>();
+    private HashMap<String, Account> accounts = new HashMap<>();
     private String first;
     private String last;
     private int pin;
@@ -30,7 +29,7 @@ public class User {
     }
 
     public void addAccount(Account acct){
-        this.accounts.add(acct);
+        this.accounts.put(acct.getAccountID() ,acct);
     }
 
     /*
@@ -38,7 +37,7 @@ public class User {
      */
 
 
-    public ArrayList<Account> getAccounts() {
+    public HashMap<String, Account> getAccounts() {
         return accounts;
     }
 
@@ -78,6 +77,16 @@ public class User {
         this.userHash = userHash;
     }
 
-
+    public String listAccts(){
+        StringBuilder msg= new StringBuilder();
+        for(Map.Entry account : getAccounts().entrySet()){
+            String type = account.getClass().getSimpleName();
+            msg.append("ID: "+ getAccounts().get(account.getKey()).getAccountID());
+            msg.append("\ntype: "+getAccounts().get(account.getKey()).getClass().getSimpleName());
+            msg.append("\n Amount: ".toUpperCase()).append(getAccounts().get(account.getKey()).getBalance()).append("0\n\n");
+        }
+        System.out.println(msg.toString());
+        return "";
+    }
 
 }

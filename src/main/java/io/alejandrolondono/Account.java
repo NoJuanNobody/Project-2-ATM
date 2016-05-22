@@ -1,6 +1,9 @@
 package io.alejandrolondono;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -8,16 +11,40 @@ import java.util.UUID;
  */
 abstract public class Account implements Transaction{
 
-    private String AccountId = UUID.randomUUID().toString();
-    private double balance=0;
+    Locale locale = new Locale("en", "US");
+    private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(locale);
+
+    private String AccountHash = UUID.randomUUID().toString();
+
+    private String accountID = getAccountHash().substring(getAccountHash().length()-8);
+
     private ArrayList<String> transactions = new ArrayList<String>();
+
+    public ArrayList<String> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(ArrayList<String> transactions) {
+        this.transactions = transactions;
+    }
+
     private Status accountStatus = Status.OPEN;
+
+    private double balance=0;
+
+    public String getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(String accountID) {
+        this.accountID = accountID;
+    }
 
     public String credit(double amount){
         String msg="";
         if(this.getAccountStatus() == Status.OPEN){
             this.setBalance(this.getBalance()+amount);
-            this.transactions.add("+"+amount);
+            this.logTransaction("+", amount);
             msg ="credited your acount: "+amount;
         }
         return msg;
@@ -27,7 +54,7 @@ abstract public class Account implements Transaction{
         String msg="";
         if(this.getAccountStatus() == Status.OPEN && !isOverdraft(amount)){
             this.setBalance(this.getBalance()-amount);
-            this.transactions.add("-"+amount);
+            this.logTransaction("-", amount);
             msg="your account has been debited "+amount;
         }
         return msg;
@@ -38,7 +65,7 @@ abstract public class Account implements Transaction{
         if(this.getAccountStatus() == Status.OPEN && !isOverdraft(amount)){
             this.debt(amount);
             acct.credit(amount);
-            msg="transfered funds FROM AccountID: "+acct.getAccountId()+"\n"+"transfered funds TO AccountID: "+acct.getAccountId();
+            msg="transfered funds FROM AccountID: "+acct.getAccountHash()+"\n"+"transfered funds TO AccountID: "+acct.getAccountHash();
         }
         return msg;
     }
@@ -57,8 +84,8 @@ abstract public class Account implements Transaction{
         setAccountStatus(Status.valueOf(status.toUpperCase()));
     }
 
-    public String getAccountId() {
-        return AccountId;
+    public String getAccountHash() {
+        return AccountHash;
     }
 
     public double getBalance() {
@@ -69,18 +96,35 @@ abstract public class Account implements Transaction{
         this.balance = balance;
     }
 
-    public void setAccountId(String accountId) {
-        AccountId = accountId;
-    }
-
-    public Account(){}
-
-    public Account(double amount){
-        this.setBalance(amount);
+    public void setAccountHash(String accountHash) {
+        AccountHash = accountHash;
     }
 
     public boolean isOverdraft(double amount){
         return amount > this.getBalance();
+    }
+
+    public void logTransaction(String action, double amount){
+
+        StringBuilder transaction = new StringBuilder();
+        transaction.append(new Date()+" ");
+       transaction.append(action+" "+currencyFormat.format(amount)+"\n");
+        getTransactions().add(transaction.toString());
+    }
+    public void printTransactions(){
+        StringBuilder log = new StringBuilder();
+        log.append("TRANSACTION LOG FOR ");
+        log.append(getClass().getSimpleName()).append("\n");
+
+        for(String transaction : getTransactions()){
+            log.append(transaction);
+        }
+        System.out.println(log.toString());
+    }
+    public Account(){}
+
+    public Account(double amount){
+        this.setBalance(amount);
     }
 
 }
